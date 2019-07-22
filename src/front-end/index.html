@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+
+<head id="head">
+  <title>MGnify &lt; EMBL-EBI</title>
+
+  <meta charset="utf-8" />
+  <!--TODO add metadata-->
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Language" content="en-GB" />
+  <meta http-equiv="Window-target" content="_top" />
+  <meta name="no-email-collection" content="http://www.unspam.com/noemailcollection/" />
+
+  <meta name="description"
+    content="MGnify is a free resource for the analysis, archiving and browsing of metagenomic and metatranscriptomic data" />
+  <meta name="keywords"
+    content="ebi, EBI, InterPro, interpro, metagenomics, metagenomic, metagenome, metagenomes, DNA, microbiology, microbial, ecology, organisms, microorganism, microorganisms, biodiversity, diversity, gene, genes, genome, genomes, genomic, genomics, ecogenomics, community genomics, genetic, sequencing, sequence, environment, environmental, ecosystem, ecosystems, samples, sample, annotation, protein, research, archive, metabolic, pathways, analysis, function, GAIA, shotgun, pyrosequencing, community, communities, metabolism, cultivation, bioinformatics, bioinformatic, database, metadata, dataset, data, repository" />
+  <meta name="author" content="MGnify EMBL-EBI">
+  <!-- Mobile viewport optimized-->
+  <meta name="HandheldFriendly" content="true" />
+  <meta name="MobileOptimized" content="width" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#70BDBD" /> <!-- Android Chrome mobile browser tab color -->
+
+  <meta name="ebi:head-color" content="#70BDBD">
+  <meta name="ebi:head-image" content="static/images/backgrounds/embl-ebi-background-4.jpg">
+
+  <!-- Add information on the life cycle of this page -->
+  <meta name="ebi:owner" content="MGnify team" /> <!-- Who should be contacted about changes -->
+  <meta name="ebi:review-cycle" content="60" /> <!-- In days, how often should the content be reviewed -->
+  <meta name="ebi:last-review" content="2018-06-19" /> <!-- The last time the content was reviewed -->
+  <meta name="ebi:expiry" content="2019-01-01" /> <!-- When this content is no longer relevant -->
+
+  <!-- Remove automatic phone number detection as MS Edge created hyperlinks from temperatures -->
+  <meta name="format-detection" content="telephone=no">
+
+
+  <!-- If you link to any other sites frequently, consider optimising performance with a DNS prefetch -->
+  <link rel="dns-prefetch" href="//embl.de" />
+
+  <!-- If you have custom icon, replace these as appropriate.
+       You can generate them at realfavicongenerator.net -->
+  <link rel="icon" type="image/x-icon" href="~ebi-framework/images/logos/EMBL-EBI/favicons/favicon.ico" />
+  <link rel="icon" type="image/x-icon" href="~/ebi-framework/images/logos/EMBL-EBI/favicons/favicon-32x32.png" />
+  <link rel="icon" type="image/x-icon"
+    href="~/ebi-framework/images/logos/EMBL-EBI/favicons/android-chrome-192x192.png" />
+  <link rel="icon" type="image/x-icon"
+    href="~/ebi-framework/images/logos/EMBL-EBI/favicons/apple-touch-icon-114x114.png" />
+  <link rel="icon" type="image/x-icon"
+    href="~/ebi-framework/images/logos/EMBL-EBI/favicons/apple-touch-icon-72x72.png" />
+  <link rel="icon" type="image/x-icon"
+    href="~/ebi-framework/images/logos/EMBL-EBI/favicons/apple-touch-icon-144x144.png" />
+  <link rel="icon" type="image/x-icon"
+    href="~/ebi-framework/images/logos/EMBL-EBI/favicons/apple-touch-icon-57x57.png" />
+  <link rel="icon" type="image/x-icon" href="~/ebi-framework/images/logos/EMBL-EBI/favicons/safari-pinned-tab.svg" />
+  <link rel="icon" type="image/x-icon" href="~/ebi-framework/images/logos/EMBL-EBI/favicons/mstile-144x144.png" />
+
+
+  <!-- Generic social media tags -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ebi.ac.uk/metagenomics/">
+  <meta property="og:site_name" content="MGnify">
+  <meta property="og:image" content="static/images/twitter_card/card_image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@MgnifyDB">
+  <meta name="twitter:creator" content="@MgnifyDB">
+  <meta name="twitter:image" content="static/images/twitter_card/card_image.jpg">
+  <meta property="og:title" content="TODO > EMBL-EBI">
+  <meta property="twitter:title" content="TODO > EMBL-EBI">
+
+  <meta name="og:description" content="TODO.">
+  <meta name="twitter:description" content="TODO.">
+</head>
+
+<body class="level2">
+
+  <header id="masthead-black-bar" class="clearfix masthead-black-bar">
+  </header>
+
+  <div data-sticky-container>
+    <header id="masthead" class="masthead" data-sticky data-sticky-on="large" data-top-anchor="main-content-area:top"
+      data-btm-anchor="main-content-area:bottom">
+      <div class="masthead-inner row">
+        <!-- local-title -->
+        <div class="columns medium-7" id="local-title">
+          <a href="#" title="Back to homepage"><img class="header-logo" src="static/images/logos/mgnify_logo.svg"
+              alt="MGnify"></a>
+          <h4>Submit, analyse, discover and compare microbiome data</h4>
+        </div>
+        <!-- /local-title -->
+        <!-- local-nav -->
+        <nav id="mgnify">
+          <ul id="local-nav" class="dropdown menu float-left" data-description="navigational" data-dropdown-menu>
+            <li id="overview-nav"><a href="#/">Overview</a></li>
+            <li id="submit-nav"><a href="{{htmlWebpackPlugin.options.templateData.subfolder}}/submit">Submit data</a>
+            </li>
+            <li id="search-nav"><a href="{{htmlWebpackPlugin.options.templateData.subfolder}}/search">Text search</a>
+            </li>
+            <li id="sequence-search-nav"><a href="{{htmlWebpackPlugin.options.templateData.sequenceSearchUrl}}">Sequence
+                search</a>
+            </li>
+            <li id="browse-nav"><a href="{{htmlWebpackPlugin.options.templateData.subfolder}}/browse">Browse data</a>
+            </li>
+            <li id="api-nav"><a href="{{htmlWebpackPlugin.options.templateData.apiUrl}}">API</a></li>
+            <li id="about-nav"><a href="{{htmlWebpackPlugin.options.templateData.subfolder}}/about">About</a></li>
+            <li id="help-nav"><a href="{{htmlWebpackPlugin.options.templateData.subfolder}}/help">Help</a></li>
+            <li class="functional">
+              <a data-cy='login' class="icon icon-functional button" data-icon="l" data-open="loginModal">
+                Login
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <!-- /local-nav -->
+      </div>
+    </header>
+  </div>
+
+  <div id="content">
+
+    <!-- Suggested layout containers -->
+    <section id="main-content-area" class="row" role="main">
+      <!-- Your menu structure should make a breadcrumb redundant, but if a breadcrump is needed uncomment the below -->
+
+      <ul class="breadcrumbs columns">
+        <li><a href="/metagenomics/">Home</a></li>
+        <li><span class="show-for-sr">Current: </span>BIGSI</li>
+      </ul>
+
+      <div class="columns">
+        <section>
+          <h2>Search our BIGSI index for the human gut</h2>
+        </section>
+        <section>
+
+          <div class="row columns text-center">
+            <p class="h4">
+              Paste a sequence
+            </p>
+            <div id="message-containter"></div>
+          </div>
+
+          <form id="search-form">
+            <div>
+              <label for="search" id="example-seq" style="cursor: pointer">Paste in your sequence or use the
+                <a href="#" id="example">example</a>
+              </label>
+
+              <label for="fasta" style="cursor: pointer">Or upload a fasta file
+                <input type="file" name="fasta" id="fasta-file" accept=".fasta, .fna, .ffn, .frn, .txt">
+              </label>
+            </div>
+            <div class="row columns">
+              <textarea id="sequence" class="sequence" title="DNA Sequence"></textarea>
+            </div>
+            <div class="row">
+              <div class="row columns">
+                <div class="columns medium-3 small-3 large-3">
+                  <label for="threshold">Threshold (between 0.1 and 1.0)</label>
+                  <input id="threshold" name="threshold" type="number" min="0.1" max="1.0" value="0.4" step="0.1">
+                </div>
+              </div>
+              <div class="columns text-center">
+                <button id="search-button" type="submit" class="button black-background">Search</button>
+                <button id="clear-button" type="button" class="button black-background">Clear</button>
+              </div>
+            </div>
+          </form>
+        </section>
+
+        <section>
+          <div class="row text-center">
+              <img class="loading" style='display: none;' src="static/images/ajax-loader.gif">
+          </div>
+
+          <div id="results-section" class="hidden">
+            <div class="row">
+              <div id="results" class="columns">
+                <table class="hover">
+                  <caption class="text-left">
+                    <h4>
+                      Best hits
+                    </h4>
+                  </caption>
+                  <thead>
+                    <th>Sample name</th>
+                    <th>Percent kmers found</th>
+                    <th>Nro kmers</th>
+                    <th>Nro kmers found</th>
+                  </thead>
+                  <tbody class="list">
+                  </tbody>
+                </table>
+                <ul class="pagination"></ul>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+    </section>
+    <!-- Optional local footer (insert citation / project-specific copyright / etc here -->
+    <!--
+    <footer id="local-footer" class="local-footer" role="local-footer">
+      <div class="row">
+        <span class="reference">How to reference this page: ...</span>
+      </div>
+    </footer>
+    -->
+    <!-- End optional local footer -->
+  </div>
+  <!-- End suggested layout containers / #content -->
+
+  <!-- <script id="results-template" type="text/x-handlebars-template">
+    <table class="hover">
+      <caption class="text-left">
+        <h4>
+            Best hits
+        </h4>
+      </caption>
+      <thead>
+        <th>Sample name</th>
+        <th>Percent kmers found</th>
+        <th>Nro kmers</th>
+        <th>Nro kmers found</th>
+      </thead>
+      <tbody>
+        {{#each results}}
+          <tr>
+            <td>{{ this.sample_name }}</td>
+            <td>{{ this.percent_kmers_found }}</td>
+            <td>{{ this.num_kmers }}</td>
+            <td>{{ this.num_kmers_found }}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </script> -->
+
+  <script id="alert-template" type="text/x-handlebars-template">
+    <div class="callout {{ type }}" data-closable>
+      {{ message }}
+      <button class="close-button" aria-label="Dismiss message" type="button" data-close>
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  </script>
+
+  <div id="footer">
+    <div id="elixir-banner" data-color="grey" data-name="This service"
+      data-more-information-link="https://www.elixir-europe.org/about-us/who-we-are/nodes/embl-ebi"
+      data-use-basic-styles="true"></div>
+  </div>
+
+  <footer>
+    <div id="global-footer" class="global-footer">
+      <nav id="global-nav-expanded" class="global-nav-expanded row">
+        <!-- Footer will be automatically inserted by footer.js -->
+      </nav>
+      <section id="ebi-footer-meta" class="ebi-footer-meta row">
+        <!-- Footer meta will be automatically inserted by footer.js -->
+      </section>
+    </div>
+    <div class="reveal visible" id="loginModal" data-reveal data-cy="loginModal">
+      <button class="close-button" data-close aria-label="Close modal" type="button">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <div class="row">
+        <div class="columns small-12 medium-6 large-6 text-box">
+          <h3>Login</h3>
+          <div id="login-form">
+          </div>
+        </div>
+        <div class="columns small-12 medium-6 large-6">
+          <h3 class="text-center">Not registered yet?</h3>
+          <h4 class="text-center"><a href="https://www.ebi.ac.uk/ena/submit/sra/#metagenome_registration">Sign up</a>
+            to register</h4>
+          <p class="text-center">or</p>
+          <p class="text-center"><a href="https://www.ebi.ac.uk/ena/submit/sra/#home">
+              <img src="static/images/ico_ena_user.jpg" alt="ENA member" border="0"></a></p>
+          <p class="text-center">If you already are a registered user of the European Nucleotide Archive (ENA), you
+            should simply use your
+            ENA account to login.</p>
+        </div>
+      </div>
+    </div>
+
+  </footer>
+  </div>
+</body>
+
+</html>

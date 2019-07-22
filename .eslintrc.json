@@ -1,0 +1,33 @@
+{
+    "extends": [
+      "eslint:recommended",
+      "google",
+      "plugin:security/recommended"
+    ],
+    "rules": {
+      "max-len": [2, {"code": 100}],
+      "no-console": "off",
+      "no-process-env": 0,
+      "comma-dangle": ["error", "never"],
+      "camelcase": [2, {"properties": "never"}],
+      "no-invalid-this": "off",
+      "dot-location": ["error", "property"]
+    },
+    "parserOptions": {
+      "ecmaVersion": 5,
+      "strict": "implied",
+      "sourceType": "module"
+    },
+    "env": {
+      "amd": true,
+      "browser": true,
+      "node": true,
+      "jquery": true
+    },
+    "globals": {
+      "google": true
+    },
+    "plugins": [
+      "security"
+    ]
+  }
