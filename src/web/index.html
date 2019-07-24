@@ -129,12 +129,12 @@
 
       <div class="columns">
         <section>
-          <h2>Search our BIGSI index for the human gut</h2>
+          <h2>Search DNA fragments in the human gut microbiome</h2>
         </section>
         <section>
 
           <div class="row columns text-center">
-            <p class="h4">
+            <p style="color: grey;font-weight: 700;font-size: 16px;">
               Paste a sequence
             </p>
             <div id="message-containter"></div>
@@ -156,13 +156,13 @@
             <div class="row">
               <div class="row columns">
                 <div class="columns medium-3 small-3 large-3">
-                  <label for="threshold">Threshold (between 0.1 and 1.0)</label>
+                  <label for="threshold">k-mer % threshold (between 0.1 and 1.0)</label>
                   <input id="threshold" name="threshold" type="number" min="0.1" max="1.0" value="0.4" step="0.1">
                 </div>
               </div>
               <div class="columns text-center">
                 <button id="search-button" type="submit" class="button black-background">Search</button>
-                <button id="clear-button" type="button" class="button black-background">Clear</button>
+                <button id="clear-button" type="button" class="button secondary">Clear</button>
               </div>
             </div>
           </form>
@@ -170,28 +170,14 @@
 
         <section>
           <div class="row text-center">
-              <img class="loading" style='display: none;' src="static/images/ajax-loader.gif">
+            <img class="loading" style='display: none;' src="static/images/ajax-loader.gif">
           </div>
 
           <div id="results-section" class="hidden">
             <div class="row">
               <div id="results" class="columns">
-                <table class="hover">
-                  <caption class="text-left">
-                    <h4>
-                      Best hits
-                    </h4>
-                  </caption>
-                  <thead>
-                    <th>Sample name</th>
-                    <th>Percent kmers found</th>
-                    <th>Nro kmers</th>
-                    <th>Nro kmers found</th>
-                  </thead>
-                  <tbody class="list">
-                  </tbody>
+                <table id="results-table" class="hover">
                 </table>
-                <ul class="pagination"></ul>
               </div>
             </div>
           </div>
@@ -210,42 +196,6 @@
     <!-- End optional local footer -->
   </div>
   <!-- End suggested layout containers / #content -->
-
-  <!-- <script id="results-template" type="text/x-handlebars-template">
-    <table class="hover">
-      <caption class="text-left">
-        <h4>
-            Best hits
-        </h4>
-      </caption>
-      <thead>
-        <th>Sample name</th>
-        <th>Percent kmers found</th>
-        <th>Nro kmers</th>
-        <th>Nro kmers found</th>
-      </thead>
-      <tbody>
-        {{#each results}}
-          <tr>
-            <td>{{ this.sample_name }}</td>
-            <td>{{ this.percent_kmers_found }}</td>
-            <td>{{ this.num_kmers }}</td>
-            <td>{{ this.num_kmers_found }}</td>
-          </tr>
-        {{/each}}
-      </tbody>
-    </table>
-  </script> -->
-
-  <script id="alert-template" type="text/x-handlebars-template">
-    <div class="callout {{ type }}" data-closable>
-      {{ message }}
-      <button class="close-button" aria-label="Dismiss message" type="button" data-close>
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-  </script>
-
   <div id="footer">
     <div id="elixir-banner" data-color="grey" data-name="This service"
       data-more-information-link="https://www.elixir-europe.org/about-us/who-we-are/nodes/embl-ebi"

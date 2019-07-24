@@ -3,9 +3,14 @@
  */
 require('./commons');
 require('../css/main.css');
-var List = require('list.js');
+require('datatables.net');
+require('datatables.net-zf');
+require('datatables.net-zf/css/dataTables.foundation.css')
+require('datatables.net-buttons-dt');
+require('datatables.net-buttons/js/buttons.html5.js');
+require('datatables.net-buttons-zf');
+var util = require('./util');
 
-var Handlebars = require('handlebars');
 
 $(function () {
 
@@ -14,13 +19,10 @@ $(function () {
     var API_URL = 'http://localhost:8000/search'; // TODO load from env.
 
     var MSG_TYPE = {
-        ERROR: 'error',
+        ERROR: 'alert',
         SUCCESS: 'success',
         WARNING: 'warning',
     }
-
-    //var resultsTableTpl = Handlebars.compile($('#results-template').html());
-    var alertTpl = Handlebars.compile($('#alert-template').html());
 
     // -- DOM Elements --//
     var $sequence = $('#sequence');
@@ -37,25 +39,32 @@ $(function () {
 
     var $resultsSection = $('#results-section');
     var $resultsContainter = $('#results');
-
-    var options = {
-        valueNames: [
-            'sample_name',
-            'percent_kmers_found',
-            'num_kmers',
-            'num_kmers_found'
+    var $table = $('#results-table').DataTable({
+        columns: [
+            // bigsi
+            { title: 'Accession', class: 'nowrap' },
+            { title: '% kmers found' },
+            { title: 'No kmers' },
+            { title: 'No kmers found' },
+            // mgnify
+            { title: 'Completeness' },
+            { title: 'Contamination' },
+            { title: 'Taxon lineage', class: 'nowrap' },
+            { title: 'Geographic origin' },
+            { title: 'No contigs' },
+            { title: 'Length' },
         ],
-        item: '<tr>' +
-            '<td class="sample_name"></td>' +
-            '<td class="percent_kmers_found"></td>' +
-            '<td class="num_kmers"></td>' +
-            '<td class="num_kmers_found"></td>' +
-            '</tr>',
-        page: 20,
-        pagination: true
-    };
-
-    var table = new List('results', options);
+        'order': [[ 1, 'desc' ]],
+        dom: "<'row'<'small-2 columns'l><'small-4 columns text-left'f><'small-6 columns text-right'B>r>"+
+             "t"+
+             "<'row'<'small-6 columns'i><'small-6 columns'p>>",
+        buttons: [{
+            extend: 'csvHtml5',
+            text: 'Download CSV', 
+            className: 'csv-button'
+        }]
+    });
+    var $toggleColumn = $('a.toggle-column');
 
     /**
      * Load an example sequence.
@@ -111,8 +120,8 @@ $(function () {
             return;
         }
 
+        $table.clear();
         $loading.show();
-        table.clear();
 
         $.ajax({
             method: 'POST',
@@ -121,16 +130,43 @@ $(function () {
                 seq: sequence,
                 threshold: threshold
             }
-        }).done(function (data) {
+        }).done(function (response) {
+            var data = response.results.map(function (d) {
+                var accession = d.bigsi['sample_name'];
+                return [
+                    '<tr><a href="' + accession + '">' + accession + '</tr>',
+                    d.bigsi['percent_kmers_found'],
+                    d.bigsi['num_kmers'],
+                    d.bigsi['num_kmers_found'],
+                    d.mgnify.attributes['completeness'],
+                    d.mgnify.attributes['contamination'],
+                    util.processLineage(d.mgnify.attributes['taxon-lineage']),
+                    d.mgnify.attributes['geographic-origin'],
+                    d.mgnify.attributes['num-contigs'],
+                    d.mgnify.attributes['length']
+                ]
+            });
+
+            $table.rows.add(data).draw();
+
             $resultsSection.removeClass('hidden');
-            table.add(data.results);
+
             $([document.documentElement, document.body]).animate({
                 scrollTop: $resultsContainter.offset().top - 120 // header and table header
             }, 1000);
         }).fail(function (error) {
-            showMessage(error.response, MSG_TYPE.ERROR);
+            showMessage(error.response || 'Unexpected error.', MSG_TYPE.ERROR);
         }).always(clear);
-    })
+    });
+
+    /**
+     * Toggle the visibility of a column
+     */
+    $toggleColumn.on('click', function (e) {
+        e.preventDefault();
+        var column = $table.column($(this).attr('data-column'));
+        column.visible(!column.visible());
+    });
 
     /**
      * Load the content of the file directly into the text area.
@@ -168,7 +204,7 @@ $(function () {
      */
     $clearButton.click(function () {
         $sequence.val('');
-        table.clear();
+        $table.clear();
         $resultsSection.addClass('hidden');
         $form.trigger('reset');
         $searchButton.prop('disabled', false);
@@ -189,7 +225,7 @@ $(function () {
 
     /**
      * Will validate if the sequence is DNA only.
-     * @param {string} sequence true if the sequence contains only IUPAC CNA valid characters 
+     * @param {string} sequence true if the sequence contains only IUPAC DNA valid characters 
      *                          and if shorter that MAX_LEN
      *                          and if longer that MIN_LEN
      */
@@ -205,10 +241,12 @@ $(function () {
      * @param {messageType} type the message type 
      */
     function showMessage(message, type) {
-        if (type === MSG_TYPE.SUCCESS) {
-            $messageContainter.html(alertTpl({ message: message, type: 'success' }));
-        } else if (type === MSG_TYPE.ERROR) {
-            $messageContainter.html(alertTpl({ message: message, type: 'warning' }));
-        };
+        $messageContainter.html(
+            $('<div class="callout ' + type + '" data-closable>' + message +
+                '<button class="close-button" aria-label="Dismiss message" type="button" data-close>' +
+                    '<span aria-hidden="true">&times;</span>' +
+                '</button>' +
+              '</div>')
+        );
     }
 });

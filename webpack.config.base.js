@@ -4,9 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
-    mode: 'development',
-    entry: 'src/front-end/js/index.js',
-    devtool: 'eval-source-map',
+    entry: 'src/web/js/index.js',
     output: {
         path: __dirname + '/dist',
         filename: '[name].[chunkhash:8].js'
@@ -20,7 +18,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             inject: true,
             filename: 'index.html',
-            template: __dirname + '/src/front-end/index.html'
+            template: __dirname + '/src/web/index.html'
         }),
         new MiniCssExtractPlugin({
             filename: '[name].css'
@@ -50,8 +48,5 @@ module.exports = {
                 }
             }
         ],
-    },
-    devServer: {
-        port: 8080
     }
 }

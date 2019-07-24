@@ -1,17 +1,23 @@
+import json
 import os
 import re
 import sys
 from functools import lru_cache
+from operator import itemgetter
 
+import falcon
 import hug
 import yaml
+from bsddb3 import db
 
-# Monkey patch rocksdb
+# monkey patch rocksdb so we can avoid installing all the dependencies
 sys.modules['rocksdb'] = __import__('rocksdb_fake')
 from bigsi.graph import BIGSI
 
+# TODO: move to env
 MAX_LEN = 5000
 MIN_LEN = 50
+BERKLEYDB_PATH = '/home/mbc/projects/bigsi-micro-service/data/mgnify.cache'
 
 
 def _clean_fasta(seq_string):
@@ -32,6 +38,7 @@ def _get_config():
     :returns: The Yaml configuration file for BIGSI
     :rtype: Yaml
     """
+    print('called')
     file = os.environ.get('HUMAN_GUT_CONF')
     with open(file, 'r') as infile:
         config = yaml.load(infile, Loader=yaml.FullLoader)
@@ -51,20 +58,48 @@ def search(seq: hug.types.text,
     :returns: a dictionary with the original query, threshold and results.
         Thee results is a list of objects with the following structure:
         {
-            sample_name
-            percent_kmers_found
-            num_kmers
-            num_kmers_found
+            bigsi: {
+                sample_name
+                percent_kmers_found
+                num_kmers
+                num_kmers_found
+            },
+            mgnify: {
+                id,
+                attributes: -- MGnify genomes API data  --
+            }
         } 
     :rtype: dict
     """
     fasta_seq = _clean_fasta(seq)
 
+    if not re.match('^[ATGCRYMKSWHBVDN\s]+$', fasta_seq, re.IGNORECASE):
+        raise falcon.HTTPBadRequest('seq', 'The sequence doesn\'t appear to be a DNA sequence')
+
     if len(fasta_seq) > MAX_LEN or len(fasta_seq) < MIN_LEN:
-        raise ValueError(f'The sequence should be longer that {MIN_LEN} and shorter than {MAX_LEN}kb')
+        raise falcon.HTTPBadRequest('seq', f'The sequence should be longer that {MIN_LEN} and shorter than {MAX_LEN}pb')
 
     bigsi = BIGSI(_get_config())
-    results = bigsi.search(fasta_seq, threshold, score)
+
+    best_matches = bigsi.search(fasta_seq, threshold, score)
+    best_matches = sorted(best_matches, key=itemgetter('percent_kmers_found'), reverse=True)
+
+    # merge the data from the DB
+    storage = db.DB()
+    storage.open(BERKLEYDB_PATH, None, db.DB_HASH, db.DB_READ_COMMITTED)
+    
+    results = []
+
+    for hit in best_matches:
+        key = hit.get('sample_name')
+        data = storage.get(key.encode('utf-8'))
+        results.append({
+            'mgnify': json.loads(data) if data else {}, 
+            'bigsi': hit 
+        })
+
+    storage.close()
+
     return {
         'query': fasta_seq,
         'threshold': threshold,
