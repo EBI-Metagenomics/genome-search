@@ -8,39 +8,70 @@ Provide an interface for users to do quick searchs against microbiomes (the huma
 
 ## Tech stack
 
-### Front-end 
-
-Based on `jquery` and some plugins. Built using `webpack`.
-
 ### Back-end
 
 Based on:
 - `Bigsi` (and `BerkleyDB`).
-- `Hug` as the Http API provider and `uWSGI` for production.
-- `nginx` as a proxy with the API and to server static files.
+- `Hug` as the Http API provider
+- `supervisord` and `gunicorn` for production.
 
-## Local dev.
+## Local environment
 
-### Front-end
+Use `conda` to manage the virtual env.
 
-Install packages: `npm install`
+Configure the virtual environment: `conda create --name genome-search`.
 
-### Back-end
+Activate `conda activate genome-search`.
 
-Configure a python virtual environment: `virtualenv -p python3 venv` and install the requeriments `pip install -r requeriments.txt`
+Install `install-dev.sh`
 
-Run `init.sh` to install `BerkleyDB`.
+Export the ENV variables running `source env-variables.sh`.
 
-Export the ENV variables running `source env-variables.sh`, this will export:
-- `export HUMAN_GUT_CONF="$(pwd)/data/human-gut/human-gut.yaml`
-- `export BERKELEYDB_DIR="$(pwd)/data/berkeley_db` for the `BerkleyDB`
+## Berkley DB.
 
-Dev env. served by `Hug` directly.
+`Berkley DB` Version 4.8 is not avaiable as a conda package so we must compile it using the gcc installed with conda.
+
+This is already taken care by `install.sh` and `install-dev.sh`.
 
 ### Dev server
 
 Run `npm run serve`
 
-## Testing
+Dev env. served by `Hug` directly.
 
-PENDING
+Run `hug -f src/api/app.py`
+
+## Production configuration
+
+Install: `install.sh`. This will install conda and all the dependencies.
+
+The yaml structure:
+
+```yaml
+h: 1
+k: 31
+m: 28000000
+storage-engine: berkeleydb
+storage-config:
+  filename: PATH_TO/human-gut.bigsi
+  flag: 'r'
+```
+
+NOTE: **The yaml and the index need to be located on the same folder**
+
+## Human genomes data cache
+
+The EMG genomes data is stored locally on a BSB DB.
+
+In order to populate the cache execute: 
+`python src/get_genomes.py`
+
+NOTE: Override the env variable `API_URL` to use a custom url.
+
+## Run
+
+Start the process `supervisord` (conf picked from supervisord.conf)
+
+### To stop the server
+
+`kill -s SIGTERM $(cat supervisord.pid)`

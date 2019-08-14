@@ -14,10 +14,9 @@ from bsddb3 import db
 sys.modules['rocksdb'] = __import__('rocksdb_fake')
 from bigsi.graph import BIGSI
 
-# TODO: move to env
 MAX_LEN = 5000
 MIN_LEN = 50
-BERKLEYDB_PATH = '/home/mbc/projects/bigsi-micro-service/data/mgnify.cache'
+MGNIFY_CACHE_PATH = os.environ.get('MGNIFY_CACHE_PATH')
 
 
 def _clean_fasta(seq_string):
@@ -38,7 +37,6 @@ def _get_config():
     :returns: The Yaml configuration file for BIGSI
     :rtype: Yaml
     """
-    print('called')
     file = os.environ.get('HUMAN_GUT_CONF')
     with open(file, 'r') as infile:
         config = yaml.load(infile, Loader=yaml.FullLoader)
@@ -86,7 +84,7 @@ def search(seq: hug.types.text,
 
     # merge the data from the DB
     storage = db.DB()
-    storage.open(BERKLEYDB_PATH, None, db.DB_HASH, db.DB_READ_COMMITTED)
+    storage.open(MGNIFY_CACHE_PATH, None, db.DB_HASH, db.DB_READ_COMMITTED)
     
     results = []
 

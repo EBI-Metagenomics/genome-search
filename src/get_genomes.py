@@ -1,13 +1,15 @@
+
 """
 Download all the genomes data from the MGnify API and store it on Berkley DB.
 """
+import os
 import json
 
 import requests
 from bsddb3 import db
 
-API_URL = 'http://localhost:5000/v1/'
-BERKLEYDB_PATH = '/home/mbc/projects/bigsi-micro-service/data/mgnify.cache'
+API_URL = os.environ.get('API_URL', 'https://www.ebi.ac.uk/metagenomics/api/v1/genomes')
+MGNIFY_CACHE_PATH = os.environ.get('MGNIFY_CACHE_PATH')
 
 
 def get_data(url, storage):
@@ -37,7 +39,7 @@ if __name__ == '__main__':
     # create if it doesn't exists
     storage = db.DB()
     storage.set_cachesize(1, 0)
-    storage.open(BERKLEYDB_PATH, None, db.DB_HASH, db.DB_CREATE)
+    storage.open(MGNIFY_CACHE_PATH, None, db.DB_HASH, db.DB_CREATE)
     
     get_data(API_URL + 'genomes', storage)
     

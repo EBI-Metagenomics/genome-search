@@ -1,5 +1,7 @@
 # Data
 data/
+tmp/
+lib/
 
 # Front end
 src/front-end/static/
