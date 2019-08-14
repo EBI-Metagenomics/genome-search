@@ -39,4 +39,7 @@ conda install -y -c anaconda bitarray
 # python packages
 pip install -r requeriments.txt
 
+# logs
+mkdir -p logs
+
 echo "Setup completed."

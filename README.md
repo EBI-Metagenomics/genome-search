@@ -57,8 +57,6 @@ storage-config:
   flag: 'r'
 ```
 
-NOTE: **The yaml and the index need to be located on the same folder**
-
 ## Human genomes data cache
 
 The EMG genomes data is stored locally on a BSB DB.
