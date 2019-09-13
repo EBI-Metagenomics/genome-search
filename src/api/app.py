@@ -71,11 +71,15 @@ def search(seq: hug.types.text,
     """
     fasta_seq = _clean_fasta(seq)
 
+    if seq.count('>') > 1:
+        raise falcon.HTTPBadRequest('seq', 'Please provide just one DNA fasta sequence.')
+
     if not re.match('^[ATGCRYMKSWHBVDN\s]+$', fasta_seq, re.IGNORECASE):
         raise falcon.HTTPBadRequest('seq', 'The sequence doesn\'t appear to be a DNA sequence')
 
     if len(fasta_seq) > MAX_LEN or len(fasta_seq) < MIN_LEN:
-        raise falcon.HTTPBadRequest('seq', f'The sequence should be longer that {MIN_LEN} and shorter than {MAX_LEN}pb')
+        raise falcon.HTTPBadRequest('seq', f'The sequence should be longer that {MIN_LEN} and ' + 
+                                    'shorter than {MAX_LEN}pb')
 
     bigsi = BIGSI(_get_config())
 
