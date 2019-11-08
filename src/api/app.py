@@ -18,6 +18,7 @@ MAX_LEN = 5000
 MIN_LEN = 50
 MGNIFY_CACHE_PATH = os.environ.get('MGNIFY_CACHE_PATH')
 
+bigsi = BIGSI(_get_config())
 
 def _clean_fasta(seq_string):
     """
@@ -80,8 +81,6 @@ def search(seq: hug.types.text,
     if len(fasta_seq) > MAX_LEN or len(fasta_seq) < MIN_LEN:
         raise falcon.HTTPBadRequest('seq', f'The sequence should be longer that {MIN_LEN} and ' + 
                                     'shorter than {MAX_LEN}pb')
-
-    bigsi = BIGSI(_get_config())
 
     best_matches = bigsi.search(fasta_seq, threshold, score)
     best_matches = sorted(best_matches, key=itemgetter('percent_kmers_found'), reverse=True)
