@@ -73,8 +73,9 @@ env.bak/
 venv.bak/
 node_modules/
 
-### VisualStudioCode ###
+### IDEs ###
 .vscode/
+.idea/
 
 ### VisualStudioCode Patch ###
 # Ignore all local history of files

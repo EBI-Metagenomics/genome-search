@@ -8,7 +8,7 @@ import json
 import requests
 from bsddb3 import db
 
-API_URL = os.environ.get('API_URL', 'https://www.ebi.ac.uk/metagenomics/api/v1/genomes')
+API_URL = os.environ.get('API_URL', 'https://www.ebi.ac.uk/metagenomics/api/v1/')
 MGNIFY_CACHE_PATH = os.environ.get('MGNIFY_CACHE_PATH')
 
 

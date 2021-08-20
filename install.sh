@@ -37,7 +37,7 @@ conda install -y -c conda-forge mmh3
 conda install -y -c anaconda bitarray
 
 # python packages
-pip install -r requeriments.txt
+pip install -r requirements.txt
 
 # logs
 mkdir -p logs

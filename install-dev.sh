@@ -17,7 +17,7 @@ BERKELEY_VERSION=4.8.30
 wget -P "${TMP}" http://download.oracle.com/berkeley-db/db-"${BERKELEY_VERSION}".tar.gz 
 tar -xf "${TMP}"/db-"${BERKELEY_VERSION}".tar.gz -C "${TMP}"
 rm -f "${TMP}"/db-"${BERKELEY_VERSION}".tar.gz
-cd "${TMP}"/db-"${BERKELEY_VERSION}"/build_unix 
+cd "${TMP}"/db-"${BERKELEY_VERSION}"/build_unix
 ../dist/configure --prefix "$BERKELEYDB_DIR" && make && make install
 cd ../../..
 
@@ -27,6 +27,6 @@ conda install -y -c conda-forge mmh3
 conda install -y -c anaconda bitarray
 
 # python packages
-pip install -r requeriments.txt
+pip install -r requirements.txt
 
 echo "Setup completed."
