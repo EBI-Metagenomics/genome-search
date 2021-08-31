@@ -128,13 +128,10 @@ def search(
         if catalogues_filter and catalogues_filter != [None]:
             if not mgnify:
                 continue
-            catalogues_for_hit = (
-                mgnify.get("relationships", {}).get("catalogues", {}).get("data", [])
+            catalogue_for_hit = (
+                mgnify.get("relationships", {}).get("catalogue", {}).get("data", {}).get('id')
             )
-            catalogues_for_hit = {
-                catalogue.get("id") for catalogue in catalogues_for_hit
-            }
-            if not catalogues_for_hit.intersection(catalogues_filter):
+            if catalogue_for_hit not in catalogues_filter:
                 continue
 
         results.append({"mgnify": mgnify, "bigsi": hit})
