@@ -75,8 +75,6 @@ This is already taken care by `install.sh` and `install-dev.sh`.
 
 ### Dev server
 
-Run `npm run serve`
-
 Dev env. served by `Hug` directly.
 
 Run `hug -f src/api/app.py`
@@ -93,11 +91,11 @@ k: 31
 m: 28000000
 storage-engine: berkeleydb
 storage-config:
-  filename: PATH_TO/human-gut.bigsi
+  filename: PATH_TO/mgyg.bigsi
   flag: 'r'
 ```
 
-## Human genomes data cache
+## MGnify genomes data cache
 
 The EMG genomes data is stored locally on a BSB DB.
 
@@ -105,6 +103,24 @@ In order to populate the cache execute:
 `python src/get_genomes.py`
 
 NOTE: Override the env variable `API_URL` to use a custom url.
+
+## Generate Supervisord config
+
+This repo contains a template, which needs to be turned into an actual supervidord.conf file.
+Do this on the 
+The template has placeholders for `ENVIRONMENT`, `HOST`, `INET_PORT`, `GUNICORN_PORT`.
+
+E.g. for the `DEV` environment, running on `gs-mgnify2` (serving the endpoint at `:8001/search`, with the supervisord control panel at `:9002`:
+```shell
+cp supervisord.conf.host_template supervisord.conf
+sed -i _dev -r 's#<<HOST>>#gs-mgnify2#g;s#<<ENVIRONMENT>>#DEV#g;s#<<INET_PORT>>#9002#g;s#<<GUNICORN_PORT>>#8001#g' supervisord.conf
+```
+
+For `PROD`, running on `gs-mgnify1` (serving on `:8000`, controllable at `:9001`):
+```shell
+cp supervisord.conf.host_template supervisord.conf
+sed -i _prod -r 's#<<HOST>>#gs-mgnify1#g;s#<<ENVIRONMENT>>#PROD#g;s#<<INET_PORT>>#9001#g;s#<<GUNICORN_PORT>>#8000#g' supervisord.conf
+```
 
 ## Run
 
