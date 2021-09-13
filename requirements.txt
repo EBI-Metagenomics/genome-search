@@ -3,6 +3,6 @@ hug==2.6.1
 gunicorn==20.1.0
 bsddb3==6.2.9
 supervisor==4.2.2
-falcon~=3.0.1
+falcon~=2.0.0
 pyyaml~=5.4.1
 requests~=2.26.0
