@@ -13,6 +13,7 @@ source $VENV_DIR/bin/activate
 
 # make a packable conda env
 conda create -n gs
+conda activate gs
 
 # dependencies installation
 conda update -y conda
@@ -44,6 +45,6 @@ pip install -r requirements.txt
 # package conda env for deploy elsewhere
 echo "Packaging conda env"
 conda install -y conda-pack
-conda-pack -n gs
+conda-pack -n gs --force
 
 echo "Build completed."
