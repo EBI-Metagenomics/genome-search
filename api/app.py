@@ -42,7 +42,7 @@ def _get_config():
     :returns: The Yaml configuration file for BIGSI
     :rtype: Yaml
     """
-    file = os.environ.get("HUMAN_GUT_CONF")
+    file = os.environ.get("MGYG_CONF")
     with open(file, "r") as infile:
         config = yaml.load(infile, Loader=yaml.FullLoader)
     return config
@@ -59,7 +59,7 @@ def search(
     catalogues_filter: hug.types.multiple = None,
 ):
     """
-    Search a DNA sequence against the index of the human_gut using BIGSI
+    Search a DNA sequence against an index of the MGnify genomes using BIGSI
     BIGSI stands for: BIGSIs–BItsliced Genomic Signature Indexes.
 
     :param seq: The fasta sequence to be searched on the index.
