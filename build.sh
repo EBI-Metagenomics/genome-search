@@ -12,11 +12,11 @@ rm miniconda.sh
 source $VENV_DIR/bin/activate
 
 # make a packable conda env
+conda update -y conda
 conda create -n gs
 conda activate gs
 
 # dependencies installation
-conda update -y conda
 conda install -y -c conda-forge gcc_linux-64 gcc_impl_linux-64
 
 # bsd db
