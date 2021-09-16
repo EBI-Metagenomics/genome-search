@@ -1,20 +1,22 @@
 #!/usr/bin/env bash
 set -e
 
-echo "Starting setup."
+# install miniconda
+echo "Start build."
 VENV_DIR=./venv
-
 rm -rf $VENV_DIR
-
 wget -q https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
 chmod 755 miniconda.sh
 bash ./miniconda.sh -b -p $VENV_DIR -f
 rm miniconda.sh
-
 source $VENV_DIR/bin/activate
 
-# dependencies installation
+# make a packable conda env
 conda update -y conda
+conda create -n gs
+conda activate gs
+
+# dependencies installation
 conda install -y -c conda-forge gcc_linux-64 gcc_impl_linux-64
 
 # bsd db
@@ -24,10 +26,10 @@ TMP="$(pwd)/tmp"
 BERKELEYDB_DIR="$(pwd)/lib/berkeley_db"
 BERKELEY_VERSION=4.8.30
 
-wget -P "${TMP}" http://download.oracle.com/berkeley-db/db-"${BERKELEY_VERSION}".tar.gz 
+wget -P "${TMP}" http://download.oracle.com/berkeley-db/db-"${BERKELEY_VERSION}".tar.gz
 tar -xf "${TMP}"/db-"${BERKELEY_VERSION}".tar.gz -C "${TMP}"
 rm -f "${TMP}"/db-"${BERKELEY_VERSION}".tar.gz
-cd "${TMP}"/db-"${BERKELEY_VERSION}"/build_unix 
+cd "${TMP}"/db-"${BERKELEY_VERSION}"/build_unix
 ../dist/configure --prefix "$BERKELEYDB_DIR" && make && make install
 cd ../../..
 
@@ -40,7 +42,9 @@ conda install -y -c anaconda bitarray
 conda install -y pip
 pip install -r requirements.txt
 
-# logs
-mkdir -p logs
+# package conda env for deploy elsewhere
+echo "Packaging conda env"
+conda install -y conda-pack
+conda-pack -n gs --force
 
-echo "Setup completed."
+echo "Build completed."
