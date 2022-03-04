@@ -1,0 +1,4 @@
+max_len: 5000
+min_len: 50
+indices:
+  - marine: marine.cobs_compact
