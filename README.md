@@ -1,4 +1,6 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Docker Repository on Quay](https://quay.io/repository/microbiome-informatics/genome-search/status "Docker Repository on Quay")](https://quay.io/repository/microbiome-informatics/genome-search)
+[![Tests](https://github.com/EBI-Metagenomics/genome-search/actions/workflows/test.yaml/badge.svg?branch=cobs)](https://github.com/EBI-Metagenomics/genome-search/actions/workflows/test.yaml)
 
 # COBS metagenomics genome search
 
@@ -17,6 +19,12 @@ Based on:
 Both the API (for handling queries) and CLI (for generating indices) run in a Docker.
 This is mostly so that we can build COBS with a good version of cmake, and because the conda and pip packages for COBS
 do not contain all of the latest updates.
+
+## Usage
+```shell
+docker pull quay.io/microbiome-informatics/genome-search
+docker run -it quay.io/microbiome-informatics/genome-search
+```
 
 ## Dev setup
 ### Requirements
