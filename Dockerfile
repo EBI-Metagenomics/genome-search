@@ -10,4 +10,4 @@ RUN pip install -r /usr/src/app/requirements.txt
 COPY src/ /usr/src/app/src
 COPY config/ /usr/src/app/config
 WORKDIR /usr/src/app
-ENTRYPOINT ["hug", "-f", "src/app.py"]
+ENTRYPOINT ["hug", "-f", "/usr/src/app/src/app.py"]
