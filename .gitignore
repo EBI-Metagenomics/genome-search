@@ -84,3 +84,4 @@ node_modules/
 # COBS
 *.cobs_cache
 *.cobs_compact
+!tests/fixtures/indices/marine1.0.cobs_compact

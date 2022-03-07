@@ -7,8 +7,7 @@ WORKDIR /usr/src/cobs
 RUN python setup.py install
 COPY requirements.txt /usr/src/app/
 RUN pip install -r /usr/src/app/requirements.txt
-COPY app.py /usr/src/app
-COPY config/ /usr/src/app
+COPY src/ /usr/src/app/src
+COPY config/ /usr/src/app/config
 WORKDIR /usr/src/app
-ENTRYPOINT ["hug", "-f", "app.py"]
-#CMD ["cli.py"]
+ENTRYPOINT ["hug", "-f", "src/app.py"]
