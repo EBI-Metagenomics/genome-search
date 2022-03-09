@@ -25,6 +25,7 @@ do not contain all of the latest updates.
 docker pull quay.io/microbiome-informatics/genome-search
 docker run -it quay.io/microbiome-informatics/genome-search
 ```
+_Note that the Quay.io-built image will probably not run on MacOS. You can however build it locally, as below._
 
 ## Dev setup
 ### Requirements
