@@ -131,7 +131,14 @@ def search(
             raise hug.HTTPBadRequest(
                 "catalogue_filter", f"Catalogue {catalogue} is not available."
             )
-        matches.extend(searchers[catalogue].search(fasta_seq, threshold))
+        try:
+            matches.extend(searchers[catalogue].search(fasta_seq, threshold))
+        except Exception as e:
+            logging.error("Caught error from COBS whilst searching", exc_info=e)
+            raise hug.HTTPBadRequest(
+                "search failed",
+                "Your search could not be handled. Did your query contain characters other than ACTG?",
+            )
     logging.info(f"Found {len(matches)} matches")
     matches = map(_serialize_search_result, matches)
 
