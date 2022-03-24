@@ -69,3 +69,40 @@ docker run -t mgnify-cobs-genome-search-tests
 During development/debugging, it is usually convenient to mount the `src/` directory with a volume bind to the docker container, 
 e.g. by adding `-v "$(PWD)/src/":"/usr/src/app/src"` to any of the above docker run commands.
 This means you do not need to rebuild the docker image every time you change a source file.
+
+## Running in production
+This service can be deployed on a webserver using Nginx, Podman, and certbot.
+E.g. to set up an Ubuntu 20 VM on [Embassy](https://www.embassycloud.org):
+
+```shell
+# Check out the repo using git or the gh cli
+
+# Create a config at /home/ubuntu/cobs/cobs.yaml
+
+# Use podman to run the container
+sudo apt update
+sudo apt install podman
+podman pull quay.io/microbiome-informatics/genome-search:cobs
+podman run -e COBS_CONFIG=/home/ubuntu/cobs/cobs.yaml --mount type=bind,source=/home/ubuntu/cobs/,destination=/home/ubuntu/cobs -p 8000:8000 --name cobs --detach quay.io/microbiome-informatics/genome-search:cobs
+
+# Generate a systemd service to keep podman up
+podman generate systemd --new --name cobs > cobs.service
+sudo cp cobs.service /etc/systemd/system/
+sudo systemctl enable cobs
+sudo systemctl start cobs
+
+# Set up nginx
+sudo apt install nginx
+
+# Set up certbot for SSL
+sudo snap install core; sudo snap refresh core
+sudo snap install --classic certbot
+sudo ln -s /snap/bin/certbot /usr/bin/certbot
+sudo certbot --nginx -d cobs-genome-search-01.mgnify.org
+
+# Set up the nginx conf
+sudo cp /home/ubuntu/this/repo/path/webserver_configs/nginx.conf /etc/nginx/sites-enabled/default
+
+# Start nginx
+sudo service nginx start
+```
