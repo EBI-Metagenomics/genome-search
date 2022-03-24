@@ -57,6 +57,23 @@ TTTCTTCAATTAAGGCAAGTCGAGGCACT --catalogues_filter marine1.0
 # {'query': 'CATTTAACGCAACCTATGCAGTGTTTTTCTTCAATTAAGGCAAGTCGAGGCACT', 'threshold': 0.4, 'results': [{'genome': 'MGYG000296002', 'score': 24}]}
 ```
 
+
+### Docker run to serve the API
+```shell
+docker run -v $(PWD)/tests/fixtures/indices:/opt/local/data -v $(PWD)/config/local.yaml:/opt/local/config/local.yaml -p 8000:8000 -it --env COBS_CONFIG=config/local.yaml mgnify-cobs-genome-search
+```
+If you’re running something else on port 8000 (like the MGnify API), use `-p 8001:8000` instead to expose the COBS API on port 8001 of your machine.
+
+Call the API with a request like:
+```shell
+curl --location --request POST 'http://127.0.0.1:8001/search' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "seq": "CATTTAACGCAACCTATGCAGTGTTTTTCTTCAATTAAGGCAAGTCGAGGCACTATGTAT",
+    "catalogues_filter": "marine1.0"
+    }'
+```
+
 ### Running tests
 There is a small test suite which runs inside the Docker container. 
 A separate `tests/Dockerfile` exists for this purpose.
