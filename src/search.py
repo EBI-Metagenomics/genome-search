@@ -53,7 +53,8 @@ def _clean_fasta(seq_string):
     if not seq_string:
         return seq_string
     seq_no_header = re.sub("^>.+\n", "", seq_string)
-    return re.sub("\n", "", seq_no_header.strip())
+    seq_no_whitespace = re.sub(" +", "", seq_no_header)
+    return re.sub("\n", "", seq_no_whitespace.strip())
 
 
 def _serialize_search_result(search_result: cobs.SearchResult):
@@ -105,8 +106,7 @@ def search(
             "seq",
             "Multiple sequences were found, but this is not supported. Please supply a single sequence.",
         )
-
-    if not re.match("^[ATGCRYMKSWHBVDN\s]+$", fasta_seq, re.IGNORECASE):
+    if not re.match("^[ATGC]+$", fasta_seq, re.IGNORECASE):
         logging.info(f"Request rejected, non-DNA chars found.")
         raise hug.HTTPBadRequest(
             "seq", "The sequence contains characters not expected for a DNA sequence."
