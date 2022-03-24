@@ -40,7 +40,17 @@ class TestCobs(unittest.TestCase):
         self.assertEqual(TEST_SEQ, query_seq)
         self.assertEqual(
             matches,
-            {"threshold": 0.4, "results": [{"genome": "MGYG000296002", "score": 150}]},
+            {
+                "threshold": 0.4,
+                "results": [
+                    {
+                        "genome": "MGYG000296002",
+                        "num_kmers": 150,
+                        "num_kmers_found": 150,
+                        "percent_kmers_found": 100.00,
+                    }
+                ],
+            },
         )
 
     def test_api(self):
@@ -60,7 +70,17 @@ class TestCobs(unittest.TestCase):
         self.assertEqual(TEST_SEQ, query_seq)
         self.assertEqual(
             matches,
-            {"threshold": 0.4, "results": [{"genome": "MGYG000296002", "score": 150}]},
+            {
+                "threshold": 0.4,
+                "results": [
+                    {
+                        "genome": "MGYG000296002",
+                        "num_kmers": 150,
+                        "num_kmers_found": 150,
+                        "percent_kmers_found": 100.00,
+                    }
+                ],
+            },
         )
 
 

@@ -8,6 +8,8 @@ import cobs_index as cobs
 import hug
 import yaml
 
+KMER_LENGTH = 31
+
 
 @lru_cache()
 def _get_config():
@@ -57,8 +59,14 @@ def _clean_fasta(seq_string):
     return re.sub("\n", "", seq_no_whitespace.strip())
 
 
-def _serialize_search_result(search_result: cobs.SearchResult):
-    return {"genome": str(search_result.doc_name), "score": search_result.score}
+def _serialize_search_result(search_result: cobs.SearchResult, sequence_length: int):
+    num_kmers = sequence_length - KMER_LENGTH + 1
+    return {
+        "genome": str(search_result.doc_name),
+        "num_kmers": num_kmers,
+        "num_kmers_found": search_result.score,
+        "percent_kmers_found": round(100.0 * search_result.score / num_kmers, 2),
+    }
 
 
 @hug.cli()
@@ -140,7 +148,9 @@ def search(
                 "Your search could not be handled. Did your query contain characters other than ACTG?",
             )
     logging.info(f"Found {len(matches)} matches")
-    matches = map(_serialize_search_result, matches)
+    matches = map(
+        lambda match: _serialize_search_result(match, len(fasta_seq)), matches
+    )
 
     return {"query": fasta_seq, "threshold": threshold, "results": list(matches)}
 
