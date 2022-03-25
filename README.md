@@ -99,8 +99,10 @@ E.g. to set up an Ubuntu 20 VM on [Embassy](https://www.embassycloud.org):
 # Use podman to run the container
 sudo apt update
 sudo apt install podman
-podman pull quay.io/microbiome-informatics/genome-search:cobs
-podman run -e COBS_CONFIG=/home/ubuntu/cobs/cobs.yaml --mount type=bind,source=/home/ubuntu/cobs/,destination=/home/ubuntu/cobs -p 8000:8000 --name cobs --detach quay.io/microbiome-informatics/genome-search:cobs
+sudo podman pull quay.io/microbiome-informatics/genome-search:cobs
+sudo podman run -e COBS_CONFIG=/home/ubuntu/cobs/cobs.yaml --mount type=bind,source=/home/ubuntu/cobs/,destination=/home/ubuntu/cobs -p 8000:8000 --name cobs --detach quay.io/microbiome-informatics/genome-search:cobs
+#  The reason you sudo these commands is that the root user owns a different set of containers to ubuntu.
+#  If you pull the image as ubuntu, it won't update the image used by root (systemd) 
 
 # Generate a systemd service to keep podman up
 podman generate systemd --new --name cobs > cobs.service
