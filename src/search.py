@@ -10,6 +10,8 @@ import yaml
 
 KMER_LENGTH = 31
 
+logging.basicConfig(level=logging.DEBUG)
+
 
 @lru_cache()
 def _get_config():
@@ -54,9 +56,9 @@ def _clean_fasta(seq_string):
     """
     if not seq_string:
         return seq_string
-    seq_no_header = re.sub("^>.+\n", "", seq_string)
+    seq_no_header = re.sub("^>.+\n\r+", "", seq_string)
     seq_no_whitespace = re.sub(" +", "", seq_no_header)
-    return re.sub("\n", "", seq_no_whitespace.strip())
+    return re.sub("\r\n+", "", seq_no_whitespace.strip())
 
 
 def _serialize_search_result(search_result: cobs.SearchResult, sequence_length: int):
@@ -105,7 +107,8 @@ def search(
     :rtype: dict
     """
     fasta_seq = _clean_fasta(seq)
-    logging.info(f"New request for sequence {fasta_seq}")
+    logging.info("New request")
+    logging.info(f"Sequence {fasta_seq}")
     logging.info(f"Threshold {threshold} and catalogues {catalogues_filter}")
 
     if seq.count(">") > 1:
@@ -116,6 +119,7 @@ def search(
         )
     if not re.match("^[ATGC]+$", fasta_seq, re.IGNORECASE):
         logging.info(f"Request rejected, non-DNA chars found.")
+        logging.info(repr(fasta_seq))
         raise hug.HTTPBadRequest(
             "seq", "The sequence contains characters not expected for a DNA sequence."
         )
