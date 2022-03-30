@@ -43,8 +43,10 @@ def _get_searchers():
         try:
             searchers[catalogue] = cobs.Search(index)
         except Exception as e:
-            logging.error(e)
-            pass
+            logging.error(
+                f"Could not create COBS Searcher for {catalogue}: {index}. Is the config file incorrect?"
+            )
+            raise e
     return searchers
 
 
