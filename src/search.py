@@ -88,23 +88,17 @@ def search(
     :param threshold: Fraction of k-mers that must be present for a match. Default is 0.4
     :param catalogues_filter: List of Genome Catalogue IDs to include genomes from, or None for all.
     :returns: a dictionary with the original query, threshold and results.
-        The results is a list of objects with the following structure:
+        The results is an echo of the threshold param and a list of results objects. It follows this structure:
         {
-            bigsi: {
-                sample_name
-                percent_kmers_found
-                num_kmers
-                num_kmers_found
-                #    if score=True in request
-                #    ...
-                #    score
-                #    pvalue
-                #    ...
-            },
-            mgnify: {
-                id,
-                attributes: -- MGnify genomes API data  --
-            }
+            'threshold': <float>,
+            'results': [
+                {
+                    genome: 'MGYG...'
+                    percent_kmers_found: <float>
+                    num_kmers: <int>
+                    num_kmers_found: <int>
+                },
+            ]
         }
     :rtype: dict
     """
