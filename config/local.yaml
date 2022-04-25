@@ -1,0 +1,4 @@
+max_len: 5000
+min_len: 50
+indices:
+  marine1.0: /opt/local/data/marine1.0.cobs_compact

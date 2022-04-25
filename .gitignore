@@ -80,3 +80,8 @@ node_modules/
 ### VisualStudioCode Patch ###
 # Ignore all local history of files
 .history
+
+# COBS
+*.cobs_cache
+*.cobs_compact
+!tests/fixtures/indices/marine1.0.cobs_compact
