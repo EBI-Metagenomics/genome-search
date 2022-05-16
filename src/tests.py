@@ -60,6 +60,10 @@ class TestCobs(unittest.TestCase):
         )
         self.assertEqual(response.status, hug.HTTP_400)
 
+        # Missing catalogues defaults to all
+        response = hug.test.post(app, "search", {"seq": TEST_SEQ})
+        self.assertEqual(response.status, hug.HTTP_200)
+
         # Good request
         response = hug.test.post(
             app, "search", {"seq": TEST_SEQ, "catalogues_filter": ["marine1.0"]}

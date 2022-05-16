@@ -134,7 +134,8 @@ def search(
         )
 
     matches = []
-    for catalogue in catalogues_filter:
+    catalogues_to_search = catalogues_filter or searchers.keys()
+    for catalogue in catalogues_to_search:
         if catalogue not in searchers:
             raise hug.HTTPBadRequest(
                 "catalogue_filter", f"Catalogue {catalogue} is not available."
