@@ -125,3 +125,7 @@ sudo cp /home/ubuntu/this/repo/path/webserver_configs/nginx.conf /etc/nginx/site
 # Start nginx
 sudo service nginx start
 ```
+
+A [health-check command](https://developers.redhat.com/blog/2019/04/18/monitoring-container-vitality-and-availability-with-podman#what_are_healthchecks_)
+might be needed, because sometimes the web service terminates inside the container for myriad reasons.
+Just add ` --healthcheck-command 'CMD-SHELL curl http://localhost:8000/search || exit 1' --healthcheck-interval=10s` to the `pomdan run...` command.
