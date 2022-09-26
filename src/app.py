@@ -1,7 +1,13 @@
+import json
+import logging
+
 import hug
 
 import search
 import index
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 
 @hug.not_found()
@@ -20,7 +26,10 @@ def extend_with():
 
 
 def lambda_handler(event, context):
-    return search.search(**event)
+    logger.info(event)
+    query = json.loads(event["body"])
+    results = search.search(**query)
+    return json.dumps(results)
 
 
 if __name__ == "__main__":

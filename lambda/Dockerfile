@@ -13,7 +13,11 @@ WORKDIR ${LAMBDA_TASK_ROOT}
 COPY requirements.txt .
 RUN pip install -r requirements.txt --target "${LAMBDA_TASK_ROOT}"
 
+RUN mkdir -p /cats
+COPY *.cobs_compact /cats/
+
 COPY src/* ${LAMBDA_TASK_ROOT}/
 COPY config/ ${LAMBDA_TASK_ROOT}/config
 
+ENV COBS_CONFIG=${LAMBDA_TASK_ROOT}/config/lambda.yaml
 CMD [ "app.lambda_handler" ]

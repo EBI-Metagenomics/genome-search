@@ -1,0 +1,4 @@
+max_len: 5000
+min_len: 50
+indices:
+  human-gut-v2-0: /cats/human-gut-v2-0.cobs_compact

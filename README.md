@@ -88,6 +88,7 @@ e.g. by adding `-v "$(PWD)/src/":"/usr/src/app/src"` to any of the above docker 
 This means you do not need to rebuild the docker image every time you change a source file.
 
 ## Running in production
+### On a VM using Podman
 This service can be deployed on a webserver using Nginx, Podman, and certbot.
 E.g. to set up an Ubuntu 20 VM on [Embassy](https://www.embassycloud.org):
 
@@ -125,3 +126,31 @@ sudo cp /home/ubuntu/this/repo/path/webserver_configs/nginx.conf /etc/nginx/site
 # Start nginx
 sudo service nginx start
 ```
+
+### Serverless in AWS Lambda
+The search service itself can be run serverless (suitable for low-ish traffic, e.g. <1000 queries per day).
+
+To do so, we build a Docker image suitable for running on AWS Lambda (using Amazon-provided base images), 
+and push the docker image to AWS ECR repository:
+
+```shell
+aws ecr create-repository --repository-name emg-genome-search --image-scanning-configuration scanOnPush=true --image-tag-mutability MUTABLE --region eu-west-1
+docker build -f lambda/Dockerfile -t emg-genome-search-lambda . 
+docker tag emg-genome-search-lambda <aws-account-id>.dkr.ecr.eu-west-1.amazonaws.com/emg-genome-search:latest
+aws ecr get-login-password --region eu-west-1 | docker login --username AWS --password-stdin <aws-account-id>.dkr.ecr.eu-west-1.amazonaws.com
+docker push <aws-account-id>.dkr.ecr.eu-west-1.amazonaws.com/emg-genome-search:latest
+```
+Then, from the AWS Console, create a "container" Lambda function, picking the new image. 
+Lastly, add an API Gateway Trigger to get a URL that accepts the POST requests and forwards them to Lambda.
+
+You can also test this Lambda locally, using `docker run -p 8000:8080 emg-genome-search-lambda`
+and sending requests like 
+`curl -XPOST "http://localhost:8000/2015-03-31/functions/function/invocations" -d '{"seq":"ACT..."}'`
+
+This works because the Docker image includes a Lambda emulator.
+
+**TODO**
+Currently the cobs indices are packages into the Docker image for Lambda.
+This is just for a proof-of-concept. 
+For a real deployment, the indices should be placed in a AWS EFS mounted filesystem, 
+and the `lambda.config` updated to point to those.  
