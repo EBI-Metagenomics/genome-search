@@ -19,5 +19,9 @@ def extend_with():
     return (search,)
 
 
+def lambda_handler(event, context):
+    return search.search(**event)
+
+
 if __name__ == "__main__":
     hug.API(__name__).cli()

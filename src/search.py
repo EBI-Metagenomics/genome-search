@@ -79,6 +79,7 @@ def search(
     seq: hug.types.text,
     threshold: hug.types.float_number = 0.4,
     catalogues_filter: hug.types.multiple = None,
+    **kwargs,
 ):
     """
     Search a DNA sequence against an index of the MGnify genomes using COBS
