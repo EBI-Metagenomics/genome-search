@@ -28,7 +28,8 @@ def extend_with():
 def lambda_handler(event, context):
     logger.info(event)
     query = json.loads(event["body"])
-    results = search.search(**query)
+    search_args = search.search.__code__.co_varnames
+    results = search.search(**{arg: val for arg, val in query if arg in search_args})
     return json.dumps(results)
 
 
