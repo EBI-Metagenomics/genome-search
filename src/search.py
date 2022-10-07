@@ -60,7 +60,7 @@ def _clean_fasta(seq_string):
         return seq_string
     seq_no_header = re.sub("^>.+[\n\r]", "", seq_string)
     seq_no_whitespace = re.sub(" +", "", seq_no_header)
-    return re.sub("\r\n+", "", seq_no_whitespace.strip())
+    return re.sub("\r\n+", "", seq_no_whitespace.strip().upper())
 
 
 def _serialize_search_result(search_result: cobs.SearchResult, sequence_length: int):
