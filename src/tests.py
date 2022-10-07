@@ -87,6 +87,15 @@ class TestCobs(unittest.TestCase):
             },
         )
 
+        # Lowercase sequence should work too
+        lc_response = hug.test.post(
+            app, "search", {"seq": TEST_SEQ.lower(), "catalogues_filter": ["marine1.0"]}
+        )
+        self.assertEqual(lc_response.status, hug.HTTP_200)
+        lc_matches = lc_response.data
+        lc_matches.pop("query")
+        self.assertEqual(lc_matches, matches)
+
 
 if __name__ == "__main__":
     unittest.main()
