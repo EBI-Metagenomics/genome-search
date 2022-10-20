@@ -129,3 +129,6 @@ sudo service nginx start
 A [health-check command](https://developers.redhat.com/blog/2019/04/18/monitoring-container-vitality-and-availability-with-podman#what_are_healthchecks_)
 might be needed, because sometimes the web service terminates inside the container for myriad reasons.
 Just add ` --healthcheck-command 'CMD-SHELL curl http://localhost:8000/search || exit 1' --healthcheck-interval=10s` to the `pomdan run...` command.
+
+### Certificate renewal
+If certbot fails to automatically renew the SSL certificate (e.g. because HTTP ingress is limited to a certain CIDR), you can briefly open the firewall and then run: `sudo certbot renew --cert-name cobs-genome-search-01.mgnify.org`
